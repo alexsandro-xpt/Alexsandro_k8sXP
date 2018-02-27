@@ -24,3 +24,35 @@
 
 8 - setar um label dc=BR para o node-1, dc=USA node-2 e dc=UK node-3
 
+# Resultados
+
+root@vm01:~/exercicio1# kubectl get deployment,pods,rs,ds -l dc=UK
+NAME                             READY     STATUS    RESTARTS   AGE
+po/exercicio1-7c9c7c44cf-4n9nv   1/1       Running   0          13m
+po/exercicio1-7c9c7c44cf-6fcl9   1/1       Running   0          13m
+po/exercicio1-7c9c7c44cf-7xvmw   1/1       Running   0          13m
+po/exercicio1-7c9c7c44cf-jdgxw   1/1       Running   0          13m
+po/exercicio1-7c9c7c44cf-rxxcv   1/1       Running   0          13m
+
+NAME                       DESIRED   CURRENT   READY     AGE
+rs/exercicio1-7c9c7c44cf   5         5         5         13m
+
+root@vm01:~/exercicio1# kubectl get deployment,pods,rs,ds -l dc=US
+No resources found.
+
+root@vm01:~/exercicio1# kubectl get deployment,pods,rs,ds -l dc=BR
+No resources found.
+
+root@vm01:~/exercicio1# kubectl get deployment,pods,rs,ds -l dc=BR -o wide
+No resources found.
+
+root@vm01:~/exercicio1# kubectl get deployment,pods,rs,ds -l dc=UK -o wide
+NAME                             READY     STATUS    RESTARTS   AGE       IP          NODE
+po/exercicio1-7c9c7c44cf-4n9nv   1/1       Running   0          14m       10.38.0.1   vm03
+po/exercicio1-7c9c7c44cf-6fcl9   1/1       Running   0          14m       10.38.0.5   vm03
+po/exercicio1-7c9c7c44cf-7xvmw   1/1       Running   0          14m       10.38.0.4   vm03
+po/exercicio1-7c9c7c44cf-jdgxw   1/1       Running   0          14m       10.38.0.2   vm03
+po/exercicio1-7c9c7c44cf-rxxcv   1/1       Running   0          14m       10.38.0.3   vm03
+
+NAME                       DESIRED   CURRENT   READY     AGE       CONTAINERS   IMAGES    SELECTOR
+rs/exercicio1-7c9c7c44cf   5         5         5         14m       nginx        nginx     pod-template-hash=3757370079,run=nginx
