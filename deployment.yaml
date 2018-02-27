@@ -1,0 +1,72 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: 2018-02-27T00:55:31Z
+  generation: 1
+  labels:
+    run: nginx
+    appname: nginxserver
+    environment: production
+  name: exercicio1
+  namespace: default
+  resourceVersion: "64682"
+  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/exercicio1
+  uid: e9320392-1b58-11e8-9cf4-000d3ac15f08
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      run: nginx
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: nginx
+        appname: nginxserver
+        environment: production
+        dc: UK
+    spec:
+      nodeSelector:
+        dc: UK
+      volumes:
+      - name: vol-nfs
+        persistentVolumeClaim:
+          claimName: vol-exercicio1
+      containers:
+      - image: nginx
+        imagePullPolicy: Always
+        name: nginx
+        volumeMounts:
+         - name: vol-nfs
+           mountPath: /usr/share/nginx/html
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: 2018-02-27T00:55:31Z
+    lastUpdateTime: 2018-02-27T00:55:31Z
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

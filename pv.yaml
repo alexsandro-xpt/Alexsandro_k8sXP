@@ -1,0 +1,16 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: vol-exercicio1
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 150M
+  accessModes:
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /opt/volexercicio1
+    server: 172.16.1.4
+    readOnly: false
